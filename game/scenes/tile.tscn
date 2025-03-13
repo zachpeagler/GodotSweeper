@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://8fef5nsjnvof"]
+
+[ext_resource type="Script" uid="uid://tg2n25lorqfy" path="res://scripts/tile.gd" id="1_3dk36"]
+
+[node name="Tile" type="TextureButton"]
+script = ExtResource("1_3dk36")
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

@@ -1,0 +1,92 @@
+[gd_scene load_steps=4 format=3 uid="uid://8l3y72508ps8"]
+
+[ext_resource type="Script" uid="uid://boalwfxpw4tur" path="res://scripts/game.gd" id="1_uwrxv"]
+[ext_resource type="PackedScene" uid="uid://chmg35fq7l2iv" path="res://scenes/custom_popup.tscn" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://ckq48t2ebfu60" path="res://scenes/game_over_popup.tscn" id="3_lnu2h"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1_uwrxv")
+
+[node name="BaseLayer" type="CanvasLayer" parent="."]
+
+[node name="Background" type="ColorRect" parent="BaseLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.694118, 0.647059, 0.552941, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="BaseLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BaseLayer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BaseLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DifficultyButton" type="OptionButton" parent="BaseLayer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+selected = 0
+allow_reselect = true
+item_count = 3
+popup/item_0/text = "Easy"
+popup/item_0/id = 0
+popup/item_1/text = "Medium"
+popup/item_1/id = 1
+popup/item_2/text = "Hard"
+popup/item_2/id = 2
+
+[node name="CustomGameButton" type="Button" parent="BaseLayer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Custom"
+
+[node name="VSeparator" type="VSeparator" parent="BaseLayer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BaseLayer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="MineCounter" type="Label" parent="BaseLayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Mines: 00/00"
+
+[node name="TimeElapsed" type="Label" parent="BaseLayer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Time: 00:00"
+
+[node name="GameLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="PopupLayer" type="CanvasLayer" parent="."]
+layer = 4
+
+[node name="CustomPopup" parent="PopupLayer" instance=ExtResource("2_yqjtg")]
+visible = false
+
+[node name="GameOverPopup" parent="PopupLayer" instance=ExtResource("3_lnu2h")]
+visible = false
+offset_left = -78.5
+offset_top = -85.5
+offset_right = 78.5
+offset_bottom = 85.5
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[connection signal="item_selected" from="BaseLayer/MarginContainer/VBoxContainer/HBoxContainer/DifficultyButton" to="." method="_on_difficulty_button_item_selected"]
+[connection signal="pressed" from="BaseLayer/MarginContainer/VBoxContainer/HBoxContainer/CustomGameButton" to="." method="_on_custom_game_button_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
